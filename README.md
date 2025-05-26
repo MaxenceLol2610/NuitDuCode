@@ -6,8 +6,8 @@
 - **Nom de l’établissement** : Lycée Français International de Bangkok 
 - **Membres de l’équipe** :
   - Maxence DETOURNIÈRE - M4xyll
-  - Alexia CARPENTIER
-  - Sirat WETS
+  - Alexia CARPENTIER - Soup
+  - Sirat WETS - FifthRedondo
 
 ## 🧠 Concept du jeu
 > Il s'agit d'un jeu original suivant le thème (À compléter)
