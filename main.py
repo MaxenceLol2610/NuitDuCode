@@ -12,10 +12,13 @@ print("Game Started")
 start_frame = 0
 
 Player = player.PLAYER
+Mobs = mobs.MOBS
 
 def update():
     frame = pyxel.frame_count
     Player.update(frame)
+    Mobs.update(frame)
+    world.update()
     if startOver.start == 0 and pyxel.btnp(pyxel.KEY_SPACE):
         startOver.start = 1
         global start_frame
