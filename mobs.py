@@ -91,6 +91,20 @@ class Mobs:
             if mob[3]<= 0:
                 self.ennemis_liste.remove(mob)
     
+    def enemy_damage(self):
+        if Player.is_attacking:
+            print("Player is attacking")
+            for mob in self.ennemis_liste:
+                dx_to_player = self.player_x - mob[0]
+                dy_to_player = self.player_y - mob[1]
+                if math.sqrt(dx_to_player*dx_to_player + dy_to_player*dy_to_player) < 64:
+                    self.take_damage(mob)
+
+    def take_damage(self, mob):
+        mob[3] -= 10
+        pyxel.blt(mob[0], mob[1], 0, 0, 96, 32, 16, 2, 0, 2)  # Flash effect on damage
+        print("enemy damaged:", mob[2], "remaining health:", mob[3])
+
     def draw(self):
         for mob in self.ennemis_liste:
             if mob[2] == "skeleton":
@@ -113,6 +127,7 @@ class Mobs:
         self.check_and_perform_attacks(frame)
         self.update_projectiles()
         self.ennemis_supression()
+        self.enemy_damage()
         self.mob_frame = frame
 
     def check_and_perform_attacks(self, frame):
