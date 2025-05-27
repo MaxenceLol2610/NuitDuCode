@@ -1,6 +1,6 @@
 > ⚠️ **Rappel important :** L'intégralité du code source du jeu doit être contenue dans **un seul et unique fichier Python**. De même, un seul fichier pyxres est autorisé (J'ai l'impression)*.
 
-# 🎮 Nuit du Code 2025 – Titre du jeu
+# 🎮 Nuit du Code 2025 – Seldah
 
 ## 👥 Équipe
 - **Nom de l’établissement** : Lycée Français International de Bangkok 
@@ -10,7 +10,7 @@
   - Sirat WETS - FifthRedondo
 
 ## 🧠 Concept du jeu
-> Il s'agit d'un jeu original suivant le thème (À compléter)
+> Il s'agit d'un jeu original suivant le thème numero 2. L'ob
 
 ## 🎯 Objectif du joueur
 > Décrivez les objectifs du joueur dans la partie.
