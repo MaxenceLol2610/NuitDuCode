@@ -4,6 +4,7 @@ import pyxel
 UP,DOWN,LEFT,RIGHT = (pyxel.KEY_UP, pyxel.KEY_DOWN, pyxel.KEY_LEFT, pyxel.KEY_RIGHT)
 ATTACK_1, ATTACK_2 = (pyxel.KEY_J, pyxel.KEY_K)
 
+start_frame = 0;
 
 class Player:
     def __init__(self, x=0, y=0):
@@ -12,6 +13,7 @@ class Player:
         self.looking = RIGHT
         self.health = 100
         self.is_moving = False
+        self.is_attacking = False
         self.coins = 0
         self.frame = 0
 
@@ -44,10 +46,8 @@ class Player:
             self.looking = RIGHT
     
     def attack_1(self):
-        # Placeholder for attack 1 logic
-        # Animation of attack 1 and effect the mob
-        # Melee attack
-        print("Performing Attack 1")
+        self.is_attacking = True
+
     def attack_2(self):
         # Placeholder for attack 2 logic
         # Animation of attack 1 and effect the mob
@@ -64,10 +64,10 @@ class Player:
         if pyxel.btn(RIGHT):
             self.move(RIGHT, 5)
         if pyxel.btn(ATTACK_1):
-            print("Attack 1")
+            
             self.attack_1()
         if pyxel.btn(ATTACK_2):
-            print("Attack 2")
+            
             self.attack_2()
 
     def get_position(self):
@@ -86,15 +86,29 @@ class Player:
                 pyxel.blt(self.x, self.y, 0, 0, 16, 16, 16, 2,0,2)
             if self.looking == LEFT:
                 pyxel.blt(self.x, self.y, 0, 0, 16, -16, 16, 2,0,2)
+        
+        if self.is_attacking:
+            attack_frame=self.frame
+            global start_frame
+            start_frame = pyxel.frame_count
+            self.attack_animation(attack_frame)
 
     def animate(self):
-        
         if self.looking == RIGHT:
-            pyxel.blt(self.x, self.y, 0 , self.frame*16, 16, 16, 16, 2,0,2)
+            pyxel.blt(self.x, self.y, 0 , (self.frame%4)*16, 16, 16, 16, 2,0,2)
         if self.looking == LEFT:
-            pyxel.blt(self.x, self.y, 0 , self.frame*16, 16, -16, 16, 2,0,2)
-        print(self.frame)
-
+            pyxel.blt(self.x, self.y, 0 , (self.frame%4)*16, 16, -16, 16, 2,0,2)
+        
+    def attack_animation(self,attack_frame):
+        global start_frame
+        if (start_frame-attack_frame) < 60:
+            if self.looking == RIGHT:
+                print("Attacking Right")
+                pyxel.blt(self.x+32, self.y, 0, 16, 64, 16, 16, 2, (attack_frame%4)*15, 2)
+                print(self.frame)
+            if self.looking == LEFT:
+                pyxel.blt(self.x-32, self.y, 0, 16, 64, -16, 16, 2, (attack_frame%4)*15, 2)
+        self.is_attacking = False
     def check_if_moving(self):
         if pyxel.btn(UP) or pyxel.btn(DOWN) or pyxel.btn(LEFT) or pyxel.btn(RIGHT):
             self.is_moving = True
@@ -102,7 +116,7 @@ class Player:
             self.is_moving = False
 
     def update(self,frame):
-        self.frame = frame % 4
+        self.frame = frame
         self.controls()
         self.check_if_moving()
     
