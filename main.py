@@ -18,7 +18,7 @@ def draw():
     pyxel.cls(0)
     if startOver.start == 0 or startOver.start == -1:
         startOver.draw()
-        
+
     else:
         world.draw()
     
