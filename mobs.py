@@ -4,7 +4,6 @@ import math
 import random
 
 Player = player.PLAYER
-player_health = Player.get_health()
 
 class Mobs:
     def __init__(self):
@@ -59,7 +58,7 @@ class Mobs:
                     self.direction[mob_id] = random.randint(0, 3)
                     self.direction_timer[mob_id] = 0
                 
-                if player_health <= 7:
+                if player_health <= 10:  # Changed from 7 to 10
                     dx = self.player_x - mob[0]
                     dy = self.player_y - mob[1]
                     distance = math.sqrt(dx*dx + dy*dy)

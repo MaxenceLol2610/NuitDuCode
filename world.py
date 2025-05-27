@@ -2,6 +2,7 @@ import pyxel
 import player
 import mobs
 import random
+import interace
 
 Player = player.PLAYER
 Mobs = mobs.MOBS
@@ -43,6 +44,7 @@ def draw():
     Mobs.draw()
     for loot in loot_box:
         loot.draw()
+    interace.draw_ui(Player)
 """
 pyxel.init(256, 256, title="Seldha", fps=30)
 def update():
