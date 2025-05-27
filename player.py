@@ -1,18 +1,27 @@
 import math
 import pyxel
 
-UP,DOWN,LEFT,RIGHT = (pyxel.KEY_W, pyxel.KEY_S, pyxel.KEY_A, pyxel.KEY_D)
+UP,DOWN,LEFT,RIGHT = (pyxel.KEY_UP, pyxel.KEY_DOWN, pyxel.KEY_LEFT, pyxel.KEY_RIGHT)
 ATTACK_1, ATTACK_2 = (pyxel.KEY_J, pyxel.KEY_K)
-
-
-
 
 
 class Player:
     def __init__(self, x=0, y=0):
         self.x = x
         self.y = y
+        self.looking = RIGHT
         self.health = 100
+        self.is_moving = False
+        self.coins = 0
+        self.frame = 0
+
+    def add_coins(self, amount):
+        self.coins += amount
+    def remove_coins(self, amount):
+        if self.coins >= amount:
+            self.coins -= amount
+    def get_coins(self):
+        return self.coins
 
     def move(self, direction, distance):
         if direction == UP:
@@ -21,8 +30,10 @@ class Player:
             self.y += distance
         elif direction == LEFT:
             self.x -= distance
+            self.looking = LEFT
         elif direction == RIGHT:
             self.x += distance
+            self.looking = RIGHT
     
     def attack_1(self):
         # Placeholder for attack 1 logic
@@ -37,13 +48,13 @@ class Player:
 
     def controls(self):
         if pyxel.btn(UP):
-            self.move(UP, 1)
+            self.move(UP, 5)
         if pyxel.btn(DOWN):
-            self.move(DOWN, 1)
+            self.move(DOWN, 5)
         if pyxel.btn(LEFT):
-            self.move(LEFT, 1)
+            self.move(LEFT, 5)
         if pyxel.btn(RIGHT):
-            self.move(RIGHT, 1)
+            self.move(RIGHT, 5)
         if pyxel.btn(ATTACK_1):
             print("Attack 1")
             self.attack_1()
@@ -58,23 +69,55 @@ class Player:
         return math.sqrt((self.x - other_player.x) ** 2 + (self.y - other_player.y) ** 2)
     
     def draw(self):
-        pyxel.rect(self.x, self.y, 8, 8, 7) #place holder for player sprite
-    
-    def update(self):
-        self.controls()
+        #pyxel.rect(self.x, self.y, 8, 8, 7) #place holder for player sprite
+        
+        if self.is_moving:
+            self.animate()
+        else:
+            if self.looking == RIGHT:
+                pyxel.blt(self.x, self.y, 0, 0, 16, 16, 16, 2,0,2)
+            if self.looking == LEFT:
+                pyxel.blt(self.x, self.y, 0, 0, 16, -16, 16, 2,0,2)
 
+    def animate(self):
+        
+        if self.looking == RIGHT:
+            pyxel.blt(self.x, self.y, 0 , self.frame*16, 16, 16, 16, 2,0,2)
+        if self.looking == LEFT:
+            pyxel.blt(self.x, self.y, 0 , self.frame*16, 16, -16, 16, 2,0,2)
+        print(self.frame)
+
+    def check_if_moving(self):
+        if pyxel.btn(UP) or pyxel.btn(DOWN) or pyxel.btn(LEFT) or pyxel.btn(RIGHT):
+            self.is_moving = True
+            print("Player is moving")
+        else:
+            self.is_moving = False
+            print("Player is NOT moving")
+
+
+    def update(self,frame):
+        self.frame = frame
+        self.controls()
+        self.check_if_moving()
+    
 PLAYER = Player(128,128)
 
 def demo():
+    print("Game Started")
     pyxel.init(256, 256, title="Seldha")
+    pyxel.load("2.pyxres")
     pyxel.run(update,draw)
+    
 
 def update():
-    PLAYER.controls()
+    #pyxel.frame_count //= 5  # Control the frame speed
+    frame = pyxel.frame_count % 4
+    print("Frame:", frame)
+    PLAYER.update(frame)
     if pyxel.btn(pyxel.KEY_Q):
         pyxel.quit()
 
 def draw():
     pyxel.cls(0)
     PLAYER.draw()
-
