@@ -18,7 +18,7 @@ def help():
 
 def gameOver():
     pyxel.cls(0)
-    pyxel.text(90, 128, "Game Over", 8)
+    pyxel.text(110, 128, "Game Over", 8)
 
 def draw():
     pyxel.cls(0)
