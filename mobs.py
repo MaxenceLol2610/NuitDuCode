@@ -16,7 +16,7 @@ class Mobs:
         self.mob_frame = 0
         self.direction = {}
         self.direction_timer = {}
-    
+
     def mob_nature(self):
         rnd_selector = random.randint(1, 10)
         if rnd_selector >= 2:
