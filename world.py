@@ -42,6 +42,7 @@ def draw():
     pyxel.cls(9)
     Player.draw()
     Mobs.draw()
+
     for loot in loot_box:
         loot.draw()
     interace.draw_ui(Player)

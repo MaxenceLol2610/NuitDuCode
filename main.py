@@ -18,6 +18,8 @@ def update():
     frame = pyxel.frame_count
     Player.update(frame)
     Mobs.update(frame)
+    if not pyxel.play_pos(0):
+        pyxel.playm(0, loop=True)
     world.update()
     if startOver.start == 0 and pyxel.btnp(pyxel.KEY_SPACE):
         startOver.start = 1
