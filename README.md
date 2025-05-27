@@ -16,17 +16,20 @@
 > Décrivez les objectifs du joueur dans la partie.
 
 ## 🕹️ Contrôles
-- **Flèche gauche / droite** : Se déplacer
-- **Espace** : Sauter
-- **Entrée** : Valider dans les menus
+- **Flèche gauche / droite / Haut / Bas** : Se déplacer
+- **J** : Attaquer
+- **K** : Attaque spéciale
+- **Entrer** : Valider dans les menus
+- **Q / Esc** : Quitter le jeu
 
 ## 🧱 Mécaniques de jeu
-- [ ] Déplacements du personnage
+- [X] Déplacements du personnage
 - [ ] Collisions avec les murs/ennemis
 - [ ] Système de score / niveaux
 - [ ] Effets sonores (si implémenté via code uniquement)
 - [ ] Bonus / objets à collecter
-- [ ] Menu de démarrage ou écran Game Over
+- [X] Menu de démarrage ou écran Game Over
+- [X] Boutique d'amélioration
 
 ## 🛠️ Technologies utilisées
 - Python 3
@@ -34,8 +37,8 @@
 
 ## ⏳ Avancement
 > Mettez à jour pendant l’événement :
-- [ ] Conception du gameplay
-- [ ] Implémentation de la boucle de jeu
+- [X] Conception du gameplay
+- [X] Implémentation de la boucle de jeu
 - [ ] Tests et débogage
 - [ ] Finalisation et soumission
 
