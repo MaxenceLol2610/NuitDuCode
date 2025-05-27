@@ -1,5 +1,5 @@
 import mobs
-import movements
+import player
 import startOver
 import upgrades
 import world
