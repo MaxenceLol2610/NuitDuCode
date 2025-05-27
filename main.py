@@ -10,8 +10,9 @@ print("Game Started")
 
 def update():
     startOver.update()
+
 def draw():
     pyxel.cls(0)
     startOver.draw()
-    
+
 pyxel.run(update, draw)
