@@ -78,7 +78,9 @@ class Mobs:
 
     def ennemis_supression(self):
         """Removes mobs that are dead"""
-        pass
+        for mob in self.ennemis_liste:
+            if mob[3]<= 0:
+                self.ennemis_liste.remove(mob)
 
     def draw(self):
         for mob in self.ennemis_liste:
