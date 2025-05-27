@@ -116,5 +116,3 @@ def update():
 def draw():
     pyxel.cls(0)
     MOBS.draw()
-
-demo()
