@@ -1,5 +1,7 @@
 import math
 import pyxel
+import mobs
+import startOver
 
 UP,DOWN,LEFT,RIGHT = (pyxel.KEY_UP, pyxel.KEY_DOWN, pyxel.KEY_LEFT, pyxel.KEY_RIGHT)
 ATTACK_1, ATTACK_2 = (pyxel.KEY_J, pyxel.KEY_K)
@@ -48,11 +50,6 @@ class Player:
     def attack_1(self):
         self.is_attacking = True
 
-    def attack_2(self):
-        # Placeholder for attack 2 logic
-        # Animation of attack 1 and effect the mob
-        # Range attack
-        print("Performing Attack 2")
 
     def controls(self):
         if pyxel.btn(UP):
@@ -64,7 +61,7 @@ class Player:
         if pyxel.btn(RIGHT):
             self.move(RIGHT, 5)
         if pyxel.btn(ATTACK_1):
-            
+            self.is_attacking = True
             self.attack_1()
         if pyxel.btn(ATTACK_2):
             
@@ -103,9 +100,7 @@ class Player:
         global start_frame
         if (start_frame-attack_frame) < 60:
             if self.looking == RIGHT:
-                print("Attacking Right")
                 pyxel.blt(self.x+32, self.y, 0, 16, 64, 16, 16, 2, (attack_frame%4)*15, 2)
-                print(self.frame)
             if self.looking == LEFT:
                 pyxel.blt(self.x-32, self.y, 0, 16, 64, -16, 16, 2, (attack_frame%4)*15, 2)
         self.is_attacking = False
@@ -119,6 +114,9 @@ class Player:
         self.frame = frame
         self.controls()
         self.check_if_moving()
+        if self.health <= 0:
+            print("Player is dead")
+            startOver.start = -1
     
 PLAYER = Player(128,128)
 
