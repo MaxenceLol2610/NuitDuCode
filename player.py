@@ -23,6 +23,14 @@ class Player:
     def get_coins(self):
         return self.coins
 
+    def add_health(self, amount):
+        self.health += amount
+    def remove_health(self, amount):
+        if self.health >= amount:
+            self.health -= amount
+    def get_health(self):
+        return self.health
+
     def move(self, direction, distance):
         if direction == UP:
             self.y -= distance
@@ -90,14 +98,11 @@ class Player:
     def check_if_moving(self):
         if pyxel.btn(UP) or pyxel.btn(DOWN) or pyxel.btn(LEFT) or pyxel.btn(RIGHT):
             self.is_moving = True
-            print("Player is moving")
         else:
             self.is_moving = False
-            print("Player is NOT moving")
-
 
     def update(self,frame):
-        self.frame = frame
+        self.frame = frame % 4
         self.controls()
         self.check_if_moving()
     
@@ -111,9 +116,7 @@ def demo():
     
 
 def update():
-    #pyxel.frame_count //= 5  # Control the frame speed
-    frame = pyxel.frame_count % 4
-    print("Frame:", frame)
+    frame = pyxel.frame_count
     PLAYER.update(frame)
     if pyxel.btn(pyxel.KEY_Q):
         pyxel.quit()
