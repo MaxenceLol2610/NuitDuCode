@@ -37,7 +37,6 @@ class Mobs:
             mob_from_player = math.sqrt((self.player_x - x)**2+(self.player_y - y)**2)
             if [x, y, n, h] not in self.ennemis_liste and mob_from_player > mob_exclusion_distance:
                 self.ennemis_liste.append([x, y, n, h])
-    
     def mob_movement(self):
         self.player_x, self.player_y = Player.get_position()
         player_health = Player.get_health()

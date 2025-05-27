@@ -6,15 +6,20 @@ import world
 import pyxel
 
 pyxel.init(256, 256, title="Seldha", fps=30)
+pyxel.load("2.pyxres")
 print("Game Started")
+
+start_frame = 0
 
 Player = player.PLAYER
 
 def update():
     frame = pyxel.frame_count
+    Player.update(frame)
     if startOver.start == 0 and pyxel.btnp(pyxel.KEY_SPACE):
         startOver.start = 1
-        Player.update(frame)
+        global start_frame
+        start_frame = pyxel.frame_count
     if pyxel.btnp(pyxel.KEY_Q):
         pyxel.quit()
     if pyxel.btnp(pyxel.KEY_U):
@@ -24,11 +29,16 @@ def update():
 
 def draw():
     pyxel.cls(0)
+    frame = pyxel.frame_count
     if startOver.start == 0 or startOver.start == -1:
         startOver.draw()
     else:
-        world.draw()
-        player.draw()
+        global start_frame
+        if frame - start_frame < 60:
+            world.draw_welcome()
+        else:
+            world.draw()
+        
     
     upgrades.shop.draw()
 
