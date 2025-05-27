@@ -24,10 +24,10 @@
 
 ## 🧱 Mécaniques de jeu
 - [X] Déplacements du personnage
-- [ ] Collisions avec les murs/ennemis
-- [ ] Système de score / niveaux
-- [ ] Effets sonores (si implémenté via code uniquement)
-- [ ] Bonus / objets à collecter
+- [X] Collisions avec les murs/ennemis
+- [X] Système de score / niveaux
+- [X] Effets sonores
+- [X] Bonus / objets à collecter
 - [X] Menu de démarrage ou écran Game Over
 - [X] Boutique d'amélioration
 
@@ -39,8 +39,8 @@
 > Mettez à jour pendant l’événement :
 - [X] Conception du gameplay
 - [X] Implémentation de la boucle de jeu
-- [ ] Tests et débogage
-- [ ] Finalisation et soumission
+- [X] Tests et débogage
+- [X] Finalisation et soumission
 
 ## ✅ Instructions pour lancer le jeu
 1. Ouvrir le fichier `main.py` (ou tout autre nom choisi) dans un éditeur compatible Pygame Zero.
