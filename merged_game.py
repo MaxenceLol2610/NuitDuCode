@@ -14,6 +14,7 @@ class Player:
         self.coins = 0
         self.frame = 0
         self.speed = 1
+        self.attack_cooldown = 0  # Number of frames left for attack to be active
 
     def add_coins(self, amount):
         self.coins += amount
@@ -56,6 +57,7 @@ class Player:
 
     def attack_1(self):
         self.is_attacking = True
+        self.attack_cooldown = 8 
 
     def controls(self):
         if pyxel.btn(pyxel.KEY_UP):
@@ -87,8 +89,6 @@ class Player:
 
         if self.is_attacking:
             attack_frame = self.frame
-            global start_frame
-            start_frame = pyxel.frame_count
             self.attack_animation(attack_frame)
 
     def animate(self):
@@ -98,7 +98,6 @@ class Player:
             pyxel.blt(self.x, self.y, 0, (self.frame % 4) * 16, 16, -16, 16, 2, 0, 2)
 
     def attack_animation(self, attack_frame):
-        global start_frame
         if (start_frame - attack_frame) < 60:
             if self.looking == pyxel.KEY_RIGHT:
                 pyxel.blt(self.x + 32, self.y, 0, 16, 64, 16, 16, 2, (attack_frame % 4) * 15, 2)
@@ -116,6 +115,11 @@ class Player:
         self.frame = frame
         self.controls()
         self.check_if_moving()
+        if self.attack_cooldown > 0:
+            self.attack_cooldown -= 1
+            self.is_attacking = True
+        else:
+            self.is_attacking = False
         if self.health <= 0:
             print("Player is dead")
             global start
@@ -458,7 +462,11 @@ def gen_loot():
 
 def world_update():
     frame = pyxel.frame_count
-    if frame % (100*30) == 0:
+    # Always ensure at least one loot box exists
+    if len(loot_box) == 0:
+        gen_loot()
+    # Spawn a new loot box every 300 frames (10 seconds at 30 FPS)
+    if frame % 300 == 0:
         gen_loot()
     for loot in loot_box[:]:
         if loot.check_collision(Player):

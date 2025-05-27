@@ -46,4 +46,4 @@
 1. Ouvrir le fichier `main.py` (ou tout autre nom choisi) dans un éditeur compatible Pygame Zero.
 2. Exécuter le fichier via Replit ou en local avec la commande :
    ```bash
-   python3 main.py
+   python3 merged_game.py
