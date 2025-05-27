@@ -16,7 +16,7 @@ class Player:
         self.health = 100
         self.is_moving = False
         self.is_attacking = False
-        self.coins = 500
+        self.coins = 0
         self.frame = 0
         self.speed = 1
 

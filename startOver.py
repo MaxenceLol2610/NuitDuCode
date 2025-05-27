@@ -16,7 +16,8 @@ def help():
     pyxel.text(10, 10, "Aide:", 15)
     pyxel.text(25, 20, "Utilisez les touches du pave directionels pour bouger", 7)
     pyxel.text(25, 35, "Appuyez sur 'J' pour attaquer", 7)
-    pyxel.text(25, 50, "Appuyez sur 'K' pour utilisez votre attaque speciale", 7)
+    pyxel.text(25, 50, "Appuyez sur 'U' pour ouvrir le magasin", 7)
+    pyxel.text(25, 60, "Appuyez sur 'H' pour afficher cette aide", 7)
     pyxel.text(25, 65, "Appuyez sur 'Q' ou 'Echape' pour quitter le jeu", 7)
 
 def gameOver():
