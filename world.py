@@ -29,7 +29,10 @@ class Loot:
         return self.loot_list[pyxel.rndi(0, len(self.loot_list) - 1)]
     
     def draw(self):
-        pyxel.blt(self.x, self.y, 0, 0, 32, 16, 16, 2, 0, 2)
+        if self.loot == "Coin":
+            pyxel.blt(self.x, self.y, 0, 32, 48, 16, 16, 2, 0, 2)
+        elif self.loot == "Health":
+            pyxel.blt(self.x, self.y, 0, 112, 48, 16, 16, 2, 0, 2)
     
     def check_collision(self, player):
         player_x, player_y = player.get_position()

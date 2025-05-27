@@ -60,12 +60,9 @@ class Player:
             self.move(LEFT, 5)
         if pyxel.btn(RIGHT):
             self.move(RIGHT, 5)
-        if pyxel.btn(ATTACK_1):
+        if pyxel.btnp(ATTACK_1,1,30):
             self.is_attacking = True
             self.attack_1()
-        if pyxel.btn(ATTACK_2):
-            
-            self.attack_2()
 
     def get_position(self):
         return (self.x, self.y)
