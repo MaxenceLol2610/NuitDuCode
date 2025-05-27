@@ -32,6 +32,12 @@ class Shop:
         if player.get_coins() >= item["cost"] and item["level"] < item["max_level"]:
             player.remove_coins(item["cost"])
             item["level"] += 1
+            
+            # Apply the upgrade effects
+            if item["name"] == "Speed":
+                player.set_speed(item["level"])
+            # Future upgrades for Health and Attack can be added here
+            
             print(f"Purchased {item['name']} upgrade. New level: {item['level']}")
         else:
             print("Not enough coins or max level reached.")

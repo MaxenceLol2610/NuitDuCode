@@ -16,8 +16,9 @@ class Player:
         self.health = 100
         self.is_moving = False
         self.is_attacking = False
-        self.coins = 0
+        self.coins = 500
         self.frame = 0
+        self.speed = 1
 
     def add_coins(self, amount):
         self.coins += amount
@@ -36,17 +37,26 @@ class Player:
         return self.health
 
     def move(self, direction, distance):
+        actual_distance = distance * self.speed
         if direction == UP:
-            self.y -= distance
+            self.y -= actual_distance
         elif direction == DOWN:
-            self.y += distance
+            self.y += actual_distance
         elif direction == LEFT:
-            self.x -= distance
+            self.x -= actual_distance
             self.looking = LEFT
         elif direction == RIGHT:
-            self.x += distance
+            self.x += actual_distance
             self.looking = RIGHT
+        
+        # Keep player within screen bounds
+        self.x = max(0, min(self.x, 240))
+        self.y = max(0, min(self.y, 240))
     
+    def set_speed(self, level):
+        # Speed increases by 0.5 per level, starting from base speed of 2
+        self.speed = 2 + (level - 1) * 0.5
+
     def attack_1(self):
         self.is_attacking = True
 
