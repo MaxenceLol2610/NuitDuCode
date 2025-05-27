@@ -40,47 +40,83 @@ class Shop:
         if not self.visible:
             return
     
-        pyxel.rect(18, 18, 204, 104, 1) 
-        pyxel.rect(16, 16, 204, 104, 5) 
-        pyxel.rectb(16, 16, 204, 104, 7)
-        pyxel.rectb(18, 18, 200, 100, 7)
-
-        pyxel.rect(16, 16, 204, 15, 6)
-        pyxel.text(85, 20, "★ UPGRADES SHOP ★", 7)
-    
-        pyxel.rect(75, 35, 100, 12, 13) 
-        pyxel.circ(80, 41, 3, 10)
-        pyxel.text(85, 38, f"COINS: {player.get_coins()}", 7)
-
-        for i, item in enumerate(self.upgrade_items):
-            y = 55 + i * 20  # Increased vertical spacing
-            color = 10 if i == self.selected_item else 7
-            max_level_text = f" (MAX)" if item["level"] == item["max_level"] else ""
-
-            if i == self.selected_item:
-                for offset in range(3):
-                    pyxel.rect(20, y - 2 + offset, 196, 15 - offset*2, 8 + offset)
-
-            pyxel.text(30, y, f"{item['name']}", color)
-            pyxel.text(30, y + 6, f"Cost: {item['cost']}", 6)
+        window_x = 10
+        window_y = 10
+        window_w = 220
+        window_h = 140
         
-            pyxel.text(180, y, f"Lv.{item['level']}{max_level_text}", color)
-
-            bar_width = 60
-            pyxel.rect(100, y + 2, bar_width, 4, 1)
+        pyxel.rect(window_x + 4, window_y + 4, window_w, window_h, 0)
+        
+        pyxel.rect(window_x, window_y, window_w, window_h, 13)
+        pyxel.rectb(window_x, window_y, window_w, window_h, 7)
+        
+        title_height = 24
+        pyxel.rect(window_x, window_y, window_w, title_height, 12)
+        pyxel.rectb(window_x, window_y, window_w, title_height, 7)
+        
+        title_text = "★ UPGRADES SHOP ★"
+        text_x = window_x + (window_w - len(title_text) * 4) // 2
+        pyxel.text(text_x, window_y + 8, title_text, 0)
+        pyxel.text(text_x, window_y + 9, title_text, 7)
+        
+        tutorial_y = window_y + 26
+        pyxel.text(window_x + 15, tutorial_y, "Press U to close shop", 0)
+        
+        coin_box_y = window_y + 35
+        pyxel.rect(window_x + 65, coin_box_y, 120, 15, 4)
+        pyxel.circ(window_x + 75, coin_box_y + 7, 4, 10)
+        pyxel.text(window_x + 85, coin_box_y + 4, f"COINS: {player.get_coins()}", 7)
+        
+        item_start_y = coin_box_y + 25
+        for i, item in enumerate(self.upgrade_items):
+            y = item_start_y + i * 25
+            
+            if i == self.selected_item:
+                highlight_height = 23
+                pyxel.rect(
+                    window_x + 10,
+                    y -2,
+                    200,
+                    highlight_height,
+                    1
+                )
+                pyxel.rectb(
+                    window_x + 10,
+                    y -2,
+                    200,
+                    highlight_height,
+                    7 
+                )
+            
+            color = 7 if i == self.selected_item else 0 
+            max_level_text = f" (MAX)" if item["level"] == item["max_level"] else ""
+            
+            pyxel.text(window_x + 15, y + 2, f"{item['name']}", color)
+            
+            pyxel.text(window_x + 15, y + 9, f"Cost: {item['cost']}", 0)  # Black text
+            
+            pyxel.text(window_x + 180, y + 5, f"Lv.{item['level']}{max_level_text}", color)
+            
+            bar_width = 80
+            bar_x = window_x + 85
+            bar_y = y + 5
+            
+            pyxel.rect(bar_x, bar_y, bar_width, 6, 5)
+            
             progress = (item["level"] / item["max_level"]) * bar_width
             if progress > 0:
-                pyxel.rect(100, y + 2, int(progress), 4, 11)
-
+                pyxel.rect(bar_x, bar_y, int(progress), 6, 3)
+            pyxel.rectb(bar_x, bar_y, bar_width, 6, 0)
+            
+            dot_y = y + 15
             for j in range(item["max_level"]):
-                x = 100 + j * 8
+                x = bar_x + j * 12
                 if j < item["level"]:
-                    pyxel.circ(x + 3, y + 8, 2, 10)
-                    pyxel.circb(x + 3, y + 8, 2, 7)
+                    pyxel.circ(x + 3, dot_y, 2, 8) 
+                    pyxel.circb(x + 3, dot_y, 2, 0) 
                 else:
-                    pyxel.circb(x + 3, y + 8, 2, 5)
-
-        # Draw controls help
-        pyxel.text(20, 115, "↑↓: Select  ENTER: Buy", 6)
+                    pyxel.circb(x + 3, dot_y, 2, 0) 
+        
+        pyxel.text(window_x + 60, window_y + window_h - 12, "↑↓: Select  ENTER: Buy", 0)
 
 shop = Shop()
