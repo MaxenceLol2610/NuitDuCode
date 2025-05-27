@@ -4,7 +4,6 @@ import math
 import random
 
 Player = player.PLAYER
-player_health = Player.get_health()
 
 class Mobs:
     def __init__(self):
@@ -59,7 +58,7 @@ class Mobs:
                     self.direction[mob_id] = random.randint(0, 3)
                     self.direction_timer[mob_id] = 0
                 
-                if player_health <= 7:
+                if player_health <= 10:  # Changed from 7 to 10
                     dx = self.player_x - mob[0]
                     dy = self.player_y - mob[1]
                     distance = math.sqrt(dx*dx + dy*dy)
@@ -102,7 +101,7 @@ class Mobs:
         for proj in self.mage_projectiles:
             x, y, _, _, frame = proj
             u = frame * 16
-            pyxel.blt(x, y, 0, u, 88, 16, 8, 2, 0, 2)
+            pyxel.blt(x, y, 0, 16, 80, 16, 16, 2, 0, 2)
 
     def update(self, frame):
         current_mobs = {id(mob) for mob in self.ennemis_liste}
@@ -152,7 +151,7 @@ class Mobs:
             
             dx_to_player = self.player_x - x
             dy_to_player = self.player_y - y
-            if math.sqrt(dx_to_player*dx_to_player + dy_to_player*dy_to_player) < 8:
+            if math.sqrt(dx_to_player*dx_to_player + dy_to_player*dy_to_player) < 16:
                 Player.remove_health(self.attack_damages["mage"])
                 self.mage_projectiles.remove(proj)
                 continue
