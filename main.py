@@ -5,19 +5,19 @@ import upgrades
 import world
 import pyxel
 
-pyxel.init(256, 256, title="Seldha")
+pyxel.init(256, 256, title="Seldha", fps=30)
 print("Game Started")
 
 def update():
-    startOver.update()
-    if pyxel.btnp(pyxel.KEY_Q):
-        pyxel.quit()
     if startOver.start == 0 and pyxel.btnp(pyxel.KEY_SPACE):
         startOver.start = 1
-        world.draw()
 
 def draw():
     pyxel.cls(0)
-    startOver.draw()
+    if startOver.start == 0:
+        startOver.draw()
+    else:
+        world.draw()
+
 
 pyxel.run(update, draw)
