@@ -102,7 +102,6 @@ class Mobs:
 
     def take_damage(self, mob):
         mob[3] -= 10
-        pyxel.blt(mob[0], mob[1], 0, 0, 96, 32, 16, 2, 0, 2)  # Flash effect on damage
         print("enemy damaged:", mob[2], "remaining health:", mob[3])
 
     def draw(self):
