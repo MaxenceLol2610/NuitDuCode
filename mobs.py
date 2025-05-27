@@ -8,21 +8,16 @@ player_health = Player.get_health()
 
 class Mobs:
     def __init__(self):
-        self.mob_speed = 1
+        self.mob_speed = 0.5
         self.mob_spawn_rate = 30
-        # initialisation of the ennemies
         self.ennemis_liste = []
-        # Position of the player
         self.player_x = Player.get_position()[0]
         self.player_y = Player.get_position()[1]
         self.mob_frame = 0
-        self.direction = 0  # Used for random movement of skeletons
+        self.direction = {}
+        self.direction_timer = {}
 
     def mob_nature(self):
-        """
-        Gives a role to the mobs. 
-        Can either be skeleton or mage. There is 25% chance for a mob to be a mage.
-        """
         rnd_selector = random.randint(1, 10)
         if rnd_selector >= 2:
             return "skeleton"
@@ -30,56 +25,56 @@ class Mobs:
             return "mage"
 
     def enemy_spawn(self):
-        """Generates mobs in the game world.
-        Takes in account the position of the player and the number of mobs already spawned."""
-        # Check if the player is in the right position to spawn a mob
         if len(self.ennemis_liste) < 10:
-            # Spawn a new mob at a random position
             x = pyxel.rndi(0, 224)
             y = pyxel.rndi(0, 224)
             n = self.mob_nature()
             if n == "skeleton":
-                h= 40 # Health of the skeleton
+                h = 40
             elif n == "mage":
-                h = 20 # Health of the mage
-            # Check if the mob is not too close to the player and not already spawned
+                h = 20
             mob_exclusion_distance = 50
             mob_from_player = math.sqrt((self.player_x - x)**2+(self.player_y - y)**2)
             if [x, y, n, h] not in self.ennemis_liste and mob_from_player > mob_exclusion_distance:
-                # Add the new mob to the list
-                self.ennemis_liste.append([x ,y ,n, h])
-    
+                self.ennemis_liste.append([x, y, n, h])
     def mob_movement(self):
-        """Defines the movement of the skeletons.
-        Skeletons will move towards the player when it's health h is below 7.
-        Mages will not move."""
+        self.player_x, self.player_y = Player.get_position()
+        player_health = Player.get_health()
         
         for mob in self.ennemis_liste:
             if mob[2] == "skeleton":
-                if mob[3] < 7:
-                    # Move towards the player
-                    if mob[0] < self.player_x:
+                mob_id = id(mob)
+                if mob_id not in self.direction:
+                    self.direction[mob_id] = random.randint(0, 3)
+                    self.direction_timer[mob_id] = 0
+                
+                if player_health <= 7:
+                    dx = self.player_x - mob[0]
+                    dy = self.player_y - mob[1]
+                    distance = math.sqrt(dx*dx + dy*dy)
+                    if distance > 0:
+                        dx = dx/distance * self.mob_speed
+                        dy = dy/distance * self.mob_speed
+                        mob[0] += dx
+                        mob[1] += dy
+                else:
+                    self.direction_timer[mob_id] += 1
+                    
+                    if self.direction_timer[mob_id] >= 120 or random.random() < 0.01:
+                        self.direction[mob_id] = random.randint(0, 3)
+                        self.direction_timer[mob_id] = 0
+                    
+                    if self.direction[mob_id] == 0:
                         mob[0] += self.mob_speed
-                    elif mob[0] > self.player_x:
-                        mob[0]-= self.mob_speed
-                    if mob[1] < self.player_y:
-                        mob[1] += self.mob_speed
-                    elif mob[1] > self.player_y:
+                    elif self.direction[mob_id] == 1:
                         mob[1] -= self.mob_speed
-                else: 
-                    # Move randomly
-                    if self.mob_frame % 60 == 0:
-                        self.direction += 1
-                        print("direction change", self.direction)
-
-                    if self.direction % 4 == 0:
-                        mob[0] += self.mob_speed
-                    elif self.direction % 4 == 1:
-                        mob[1] -= self.mob_speed
-                    elif self.direction % 4 == 2:
+                    elif self.direction[mob_id] == 2:
                         mob[0] -= self.mob_speed
-                    elif self.direction % 4 == 3:
+                    elif self.direction[mob_id] == 3:
                         mob[1] += self.mob_speed
+                    
+                    mob[0] = max(0, min(mob[0], 240))
+                    mob[1] = max(0, min(mob[1], 240))
 
     def ennemis_supression(self):
         """Removes mobs that are dead"""
@@ -88,12 +83,16 @@ class Mobs:
     def draw(self):
         for mob in self.ennemis_liste:
             if mob[2] == "skeleton":
-                pyxel.blt(mob[0], mob[1], 0, 64, 16, 16, 16, 2,0,2)
+                pyxel.blt(mob[0], mob[1], 0, 64, 16, 16, 16, 2, 0, 2)
             elif mob[2] == "mage":
-                pyxel.blt(mob[0], mob[1], 0, 128, 16, 16, 16, 2,0,2)
-    
+                pyxel.blt(mob[0], mob[1], 0, 128, 16, 16, 16, 2, 0, 2)
     def update(self, frame):
         """Update the mobs"""
+        # Clean up any removed mobs from direction dictionaries
+        current_mobs = {id(mob) for mob in self.ennemis_liste}
+        self.direction = {k: v for k, v in self.direction.items() if k in current_mobs}
+        self.direction_timer = {k: v for k, v in self.direction_timer.items() if k in current_mobs}
+        
         self.enemy_spawn()
         self.mob_movement()
         self.mob_frame = frame
